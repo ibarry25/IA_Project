@@ -1,5 +1,4 @@
 # This example requires the 'message_content' intent.
-
 import discord
 
 intents = discord.Intents.default()
@@ -19,4 +18,4 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
-client.run('your token here')
+client.run('9257581c1373025c69150875d5ba3aa288d54d846fa65d6cb0599f0377c4a278')

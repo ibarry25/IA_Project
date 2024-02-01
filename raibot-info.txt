@@ -1,2 +1,3 @@
 link_invitation : https://discord.com/api/oauth2/authorize?client_id=1202658003816288306&permissions=1084479764544&scope=bot
-token : MTIwMjY1ODAwMzgxNjI4ODMwNg.GNHtXu.hu5ZqxWhZ_gZZvPmLPAUgIttVpjU_5a6sDW3T0
+token : gAAAAABlu-K_CPIExMIPvY188vX0zY5uSWGvRNXXEP4FQDUtLgpFh-iLbK4sM_3BYQbZqaD44g6stbIkShVd9CY-iDhB2Q0E1xUvd7b-mdrHVWFTaVO2vbTzTY-sCitEujbTVUdO2TaDaEZQl2IYXn4LJHlrNSaoEOAc-1Xy0vbuxedSBRPjDdc=
+key : QiwlcwZnLtK8aK4LGl9wXwPs7OyHmfmv_ZOHe5vIXso=

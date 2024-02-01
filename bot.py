@@ -1,5 +1,6 @@
 import discord
 import responses
+import TOKEN
 
 async def send_message(message, user_message, is_private):
     try:
@@ -9,12 +10,10 @@ async def send_message(message, user_message, is_private):
         print(e)
         
 def run_discord_bot():
-    TOKEN = 'MTIwMjY1ODAwMzgxNjI4ODMwNg.GNHtXu.hu5ZqxWhZ_gZZvPmLPAUgIttVpjU_5a6sDW3T0'
-    
     # Declare necessary intents
     intents = discord.Intents.default()
-    intents.message_content = True  # This allows your bot to receive message content
-    intents.presences = True  # This allows your bot to receive presence updates
+    intents.message_content = True
+    intents.presences = True
     
     client = discord.Client(intents=intents)
     
@@ -44,4 +43,4 @@ def run_discord_bot():
         else:
             await send_message(message, user_message, is_private=False)
     
-    client.run(TOKEN)
+    client.run(TOKEN.TOKEN)

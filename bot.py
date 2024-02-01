@@ -9,11 +9,12 @@ async def send_message(message, user_message, is_private):
         print(e)
         
 def run_discord_bot():
-    TOKEN = 'MTIwMjY1ODAwMzgxNjI4ODMwNg.GwHGTr.P4hX1B-5fhI9PYOm8gnOOyNsMp6-u7PQmUiZWo'
+    TOKEN = 'MTIwMjY1ODAwMzgxNjI4ODMwNg.GNHtXu.hu5ZqxWhZ_gZZvPmLPAUgIttVpjU_5a6sDW3T0'
     
     # Declare necessary intents
     intents = discord.Intents.default()
     intents.message_content = True  # This allows your bot to receive message content
+    intents.presences = True  # This allows your bot to receive presence updates
     
     client = discord.Client(intents=intents)
     

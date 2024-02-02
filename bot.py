@@ -1,5 +1,8 @@
+import os
 import discord
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from transformers import TextDataset, DataCollatorForLanguageModeling
+from transformers import Trainer, TrainingArguments
 import TOKEN
 import responses
 import string
@@ -101,3 +104,93 @@ def run_discord_bot():
     print(process_text(preprocess_text(extract_data.DATA)))
     
     client.run(TOKEN.TOKEN)
+
+def load_model():
+    """Charge le modèle GPT-2 pré-entraîné"""
+    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    model = GPT2LMHeadModel.from_pretrained('gpt2')
+    return model, tokenizer
+
+def preprocess_data(data_path):
+    """Prétraitement des données"""
+    with open(data_path, 'r', encoding='utf-8') as file:
+        data = file.read()
+
+    # Ajoutez ici tout prétraitement spécifique à vos données
+    data = preprocess_text(data)
+
+    return data
+
+def train_gpt2_model(model, tokenizer, train_data, output_dir):
+    """Entraîne le modèle GPT-2 sur les données d'entraînement"""
+    print(f"Training data path: {train_data}")
+    train_dataset = TextDataset(
+        tokenizer=tokenizer,
+        file_path=train_data,
+        block_size=128
+    )
+
+    data_collator = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer,
+        mlm=False
+    )
+
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        overwrite_output_dir=True,
+        num_train_epochs=100,
+        per_device_train_batch_size=4,
+        save_steps=10_000,
+        save_total_limit=2,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        data_collator=data_collator,
+        train_dataset=train_dataset,
+    )
+
+    # Débogage
+    print("Starting training...")
+    
+    # Commencer l'entraînement
+    trainer.train()
+
+    # Débogage
+    print("Training completed.")
+
+    # Créer le répertoire de sortie s'il n'existe pas
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Débogage
+    print(f"Saving model to: {output_dir}")
+
+    # Sauvegarder le modèle entraîné
+    model.save_pretrained(output_dir)
+    tokenizer.save_pretrained(output_dir)
+
+    # Débogage
+    print("Model saved successfully.")
+
+
+    # Commencer l'entraînement
+    trainer.train()
+
+if __name__ == '__main__':
+    # Configuration
+    data_path = './data/training-data.txt'
+    output_dir = 'output'
+
+    # Prétraitement des données
+    training_data = preprocess_data(data_path)
+
+    # Charger le modèle
+    model, tokenizer = load_model()
+
+    # Entraîner le modèle
+    train_gpt2_model(model, tokenizer, data_path, output_dir)
+
+    # Sauvegarder le modèle entraîné
+    model.save_pretrained(output_dir)
+    tokenizer.save_pretrained(output_dir)

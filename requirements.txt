@@ -2,3 +2,4 @@ pip install discord
 pip install transformers
 pip install torch
 pip install python-docx
+pip install transformers[torch]

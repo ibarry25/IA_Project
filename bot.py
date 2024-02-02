@@ -2,6 +2,9 @@ import discord
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import TOKEN
 import responses
+import string
+import re
+import extract_data
 
 async def send_message(message, user_message, is_private):
     """Méthode permettant d'envoyer une réponse  à un utilisateur ou à un canal.
@@ -45,6 +48,22 @@ def generate_gpt2_response(user_message):
     response = tokenizer.decode(output[0], skip_special_tokens=True)
     return response
 
+def preprocess_text(text):
+    # Supprimer les balises HTML (si elles existent)
+    text = re.sub(r'<.*?>', '', text)
+
+    # Normaliser la casse
+    text = text.lower()
+    
+    return text
+
+def process_text(text):
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+
+    tokens = tokenizer(text)
+
+    return tokens
+
 def run_discord_bot():
     """Méthode permettant simplement de lancer le bot et le connecter aux serveurs discord
     """    
@@ -78,5 +97,7 @@ def run_discord_bot():
             await send_message(message, user_message, is_private=True)
         else:
             await send_message(message, user_message, is_private=False)
-
+        
+    print(process_text(preprocess_text(extract_data.DATA)))
+    
     client.run(TOKEN.TOKEN)
